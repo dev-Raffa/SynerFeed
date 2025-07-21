@@ -24,15 +24,24 @@ The project architecture is documented using the C4 Model, providing different l
 
 This diagram shows **SynerFeed** as a central system interacting with its users (Collaborators, Leaders, Administrators) and an external Email Service.
 
+![Feedback Platform Context Diagram](https://raw.githubusercontent.com/dev-Raffa/SynerFeed/main/SynerFeed.Documentation/diagrams/contexts/feedback-plataform-context.svg)
+
 
 ### Container Diagram
 
 This diagram breaks down the **SynerFeed** system into its main deployable applications and data stores: the **Web Application** (SPA), the **API** (NestJS), the **PostgreSQL Database**, and the **Redis Cache**. It illustrates how these containers interact.
 
+![Feedback Platform Container Diagram](https://raw.githubusercontent.com/dev-Raffa/SynerFeed/main/SynerFeed.Documentation/diagrams/containers/feedback-plataform-container.svg)
+
+
 ### API Components Diagram
 
 This diagram details the logical components (modules) within the **API** (NestJS), such as Authentication, Feedback, Admin, and Notification modules, and how they interact with the Data Access Layer and external services.
 
+![API Component Diagram](https://raw.githubusercontent.com/dev-Raffa/SynerFeed/main/SynerFeed.Documentation/diagrams/components/api-component.svg)
+
 ### Web Application Components Diagram
 
 This diagram illustrates the key functional **modules** within the **Web Application** (SPA), including core navigation, authentication, dashboard, feedback management, and administrative modules, and their interactions with the API Integration, Global State, and Shared UI modules.
+
+![Web App Component Diagram](https://raw.githubusercontent.com/dev-Raffa/SynerFeed/main/SynerFeed.Documentation/diagrams/components/web-app-component.svg)
