@@ -1,0 +1,37 @@
+@startuml api-component
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+title Component Diagram - API (NestJS)
+caption Illustrates the main internal components of the Feedback Platform API.
+
+Container(web_app, "Web Application", "SPA", "Provides the user interface.")
+ContainerDb(database, "Database", "PostgreSQL", "Stores data.")
+System_Ext(servico_email, "Email Service", "Email sending service.")
+
+Container_Boundary(api, "API (NestJS)") {
+
+    Component(auth_module, "Authentication/User Module", "NestJS Module <<Module>>", "Manages the user lifecycle (registration, login, profiles, etc.).")
+    Component(feedback_module, "Feedback Module", "NestJS Module <<Module>>", "Manages the creation, querying, editing, and deletion of feedback.")
+    Component(admin_module, "Administrative/Settings Module", "NestJS Module <<Module>>", "Controls administrative functions, such as user management and company values.")
+    Component(notification_module, "Notifications Module", "NestJS Module <<Module>>", "Responsible for sending transactional emails.")
+
+    Component(data_access_layer, "Data Access Layer", "Prisma/TypeORM", "Interacts with the database for data persistence.")
+
+    auth_module --> data_access_layer : Persists user data
+    feedback_module --> data_access_layer : Persists feedback data
+    admin_module --> data_access_layer : Persists settings/user data
+    notification_module --> data_access_layer : Fetches data for notifications (e.g., user email)
+
+    auth_module --> notification_module : Sends welcome/password recovery email
+    feedback_module --> notification_module : Sends feedback received email
+}
+
+web_app --> auth_module : Consumes authentication API
+web_app --> feedback_module : Consumes feedback API
+web_app --> admin_module : Consumes administration API
+
+data_access_layer --> database : Connects and executes SQL queries
+
+notification_module --> servico_email : Sends emails via external service API (Resend)
+
+right header [[../containers/feedback-plataform-container.svg back to containers]]
+@enduml

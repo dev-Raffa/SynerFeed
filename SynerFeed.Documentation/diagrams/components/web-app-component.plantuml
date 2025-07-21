@@ -1,0 +1,50 @@
+@startuml web-app-component
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+title Component Diagram - Single Page Application
+caption Illustrates the main internal components of the Feedback Platform Web Application.
+
+Container(api, "API", "NestJS (Node.js)", "RESTful API for business logic.")
+
+Person(colaborador, "Collaborator", "Offers and receives feedback.")
+Person(lider, "Leader", "Offers, receives, and manages feedback from direct reports.")
+Person(administrador, "Administrator", "Manages the platform, users, and settings.")
+
+Container_Boundary(web_app_container, "Single Page Application") {
+
+    Component(auth_module, "Auth Module", "<<Module>>", "Manages login, registration, and password recovery flows.")
+    Component(dashboard_module, "Dashboard Module", "<<Module>>", "Displays metrics and feedback summaries.")
+    Component(feedback_management_module, "Feedback Management Module", "<<Module>>", "Manages the creation, viewing, and signing of feedback.")
+    Component(admin_management_module, "Admin Management Module", "<<Module>>", "Manages users, company values, and settings.")
+    Component(social_feed_module, "Social Feed Module", "<<Module>>", "Manages posts, likes, and comments.")
+
+    Component(api_integration_module, "API Integration Module", "<<Module>>", "Centralizes all HTTP calls to the backend API.")
+
+    auth_module --> api_integration_module : Authenticates user
+    dashboard_module --> api_integration_module : Fetches data
+    feedback_management_module --> api_integration_module : Sends/fetches feedback
+    admin_management_module --> api_integration_module : Manages resources
+    social_feed_module --> api_integration_module : Manages posts
+}
+
+administrador --> admin_management_module
+administrador --> auth_module
+administrador --> dashboard_module
+administrador --> feedback_management_module
+administrador --> social_feed_module
+
+lider --> auth_module
+lider --> dashboard_module
+lider --> feedback_management_module
+lider --> social_feed_module
+
+colaborador --> auth_module
+colaborador --> dashboard_module
+colaborador --> feedback_management_module
+colaborador --> social_feed_module
+
+api_integration_module --> api : Makes requests (JSON/HTTPS)
+
+right header [[../containers/feedback-plataform-container.svg back to containers]]
+
+@enduml

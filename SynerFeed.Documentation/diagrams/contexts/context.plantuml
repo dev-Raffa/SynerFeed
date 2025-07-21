@@ -1,0 +1,20 @@
+@startuml feedback-plataform-context
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Context.puml
+
+title Context Diagram - Feedback Platform
+caption Illustrates how the Feedback Platform interacts with its users and external systems.
+
+Person(colaborador, "Collaborator", "Offers and receives feedback.")
+Person(lider, "Leader", "Offers, receives, and manages feedback from direct reports.")
+Person(administrador, "Administrator", "Manages the platform, users, and settings.")
+
+System(plataforma_feedback, "Feedback Platform", "System for continuous feedback management.", $link="../containers/feedback-plataform-container.svg")
+
+System_Ext(servico_email, "Email Service", "Email sending service for notifications.")
+
+colaborador --> plataforma_feedback : Uses (web/mobile)
+lider --> plataforma_feedback : Uses (web/mobile)
+administrador --> plataforma_feedback : Manages (web)
+
+plataforma_feedback --> servico_email : Sends Notifications (Welcome Emails, Feedback Received, Password Recovery)
+@enduml

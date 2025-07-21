@@ -1,0 +1,33 @@
+@startuml feedback-plataform-container
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+title Container Diagram - Feedback Platform
+caption Illustrates the main containers of the Feedback Platform and their interactions.
+
+System_Boundary(plataforma_feedback, "Feedback Platform") {
+
+    Container(web_app, "Web Application", "SPA", "Provides the user interface for the feedback platform.", $link="../components/web-app-component.svg")
+    Container(api, "API", "NestJS (Node.js)", "RESTful API that exposes business functionalities and manages data.", $link="../components/api-component.svg")
+    ContainerDb(database, "Database", "PostgreSQL", "Stores all platform data (users, feedback, settings).")
+    ContainerDb(cache_redis, "Data Cache", "Redis", "Caches data to optimize performance.")
+}
+
+Person(colaborador, "Collaborator", "Offers and receives feedback.")
+Person(lider, "Leader", "Offers, receives, and manages feedback from direct reports.")
+Person(administrador, "Administrator", "Manages the platform, users, and settings.")
+
+System_Ext(servico_email, "Email Service", "Email sending service for notifications.")
+
+colaborador -down-> web_app : Uses (HTTP/HTTPS)
+lider -down-> web_app : Uses (HTTP/HTTPS)
+administrador -down-> web_app : Manages via (HTTP/HTTPS)
+
+web_app -down-> api : Consumes API (JSON/HTTPS)
+
+api -down-> database : Reads and Writes data (SQL)
+api -down-> cache_redis : Reads and Writes cached data
+api -down-> servico_email : Sends emails (SMTP/API)
+
+right header [[../contexts/feedback-plataform-context.svg back to context]] 
+
+@enduml
